@@ -44,8 +44,6 @@ const Peliculas = () => {
 
   const totalPages = Math.ceil(movies.length / moviesPerPage);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
   const nextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -93,10 +91,21 @@ const Peliculas = () => {
       </div>
 
       <div className="pagination">
-        <button onClick={prevPage} className="btn btn-secondary" disabled={currentPage === 1}>
+        {/* Botones de navegación */}
+        <button
+          onClick={prevPage}
+          className="btn btn-secondary"
+          disabled={currentPage === 1}
+        >
           Anterior
         </button>
-        <button onClick={nextPage} className="btn btn-secondary" disabled={currentPage === totalPages}>
+        {/* Mensaje de rango de páginas */}
+        <p>{`Página ${currentPage} de ${totalPages}`}</p>
+        <button
+          onClick={nextPage}
+          className="btn btn-secondary"
+          disabled={currentPage === totalPages}
+        >
           Siguiente
         </button>
       </div>
