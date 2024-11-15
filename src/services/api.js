@@ -1,4 +1,4 @@
-const apiKey = '';
+const apiKey = '44cbe0c664c076c42b0ea76c9f17653c';
 
 export const fetchPopularMovies = async () => {
   const url = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=es-ES&page=1`;

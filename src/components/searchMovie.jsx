@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './searchMovie.css'
+import '../styles/Movies.css'
 
 const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState('');
@@ -10,7 +10,7 @@ const SearchBar = ({ onSearch }) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    onSearch(query); // Llama a la función de búsqueda que pasamos desde el componente padre
+    onSearch(query);
   };
 
   return (
@@ -20,9 +20,9 @@ const SearchBar = ({ onSearch }) => {
         placeholder="Buscar película..."
         value={query}
         onChange={handleInputChange}
-        className="form-control"
+        className="search-input"
       />
-      <button type="submit" className="btn btn-primary">
+      <button type="submit" className="search-button">
         Buscar
       </button>
     </form>

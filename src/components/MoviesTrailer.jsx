@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Trailers } from '../services/api';
-import './movieTrailer.css'
+import '../styles/Movies.css'
 
 const MovieTrailers = () => {
   const { id } = useParams();
@@ -31,24 +31,21 @@ const MovieTrailers = () => {
     fetchTrailers();
   }, [id]);
 
-  if (loading) return <p>Cargando trailers...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p className="loading-message">Cargando trailers...</p>;
+  if (error) return <p className="error-message">{error}</p>;
 
   const indexOfLastTrailer = currentPage * trailersPerPage;
   const indexOfFirstTrailer = indexOfLastTrailer - trailersPerPage;
   const currentTrailers = trailers.slice(indexOfFirstTrailer, indexOfLastTrailer);
 
-  // Función para cambiar la página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Función para cambiar a la página siguiente
   const nextPage = () => {
     if (currentPage < Math.ceil(trailers.length / trailersPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };
 
-  // Función para cambiar a la página anterior
   const prevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -57,58 +54,47 @@ const MovieTrailers = () => {
 
   return (
     <div className="container">
-      <button
-        onClick={() => navigate('/')}
-        className="btn btn-secondary mt-4"
-      >
-        Regresar a las películas
-      </button>
+      <div className="navigation-buttons">
+        <button onClick={() => navigate('/')} className="btn btn-secondary">
+          Regresar a las películas
+        </button>
+        <button onClick={() => navigate(`/movie/${id}`)} className="btn btn-secondary">
+          Regresar al detalle
+        </button>
+      </div>
 
-      <button
-        onClick={() => navigate(`/movie/${id}`)}
-        className="btn btn-secondary mt-4"
-      >
-        Regresar al detalle
-      </button>
-      <h2>Trailers</h2>
+      <h2 className="page-title">Trailers</h2>
+
       {trailers.length === 0 ? (
-        <p>No hay trailers disponibles para esta película.</p>
+        <p className="no-trailers-message">No hay trailers disponibles para esta película.</p>
       ) : (
         <div>
-          <div className="row">
+          <div className="trailer-grid">
             {currentTrailers.map((trailer) => (
-              <div key={trailer.id} className="col-md-6 col-lg-4 mb-4">
-                <div className="card">
-                  <div className="embed-responsive embed-responsive-16by9">
-                    <iframe
-                      title={trailer.name}
-                      className="embed-responsive-item"
-                      src={`https://www.youtube.com/embed/${trailer.key}`}
-                      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                  <div className="card-body">
-                    <h5 className="card-title">{trailer.name}</h5>
-                    <p className="card-text">{trailer.type}</p>
-                  </div>
+              <div key={trailer.id} className="trailer-item">
+                <div className="trailer-video">
+                  <iframe
+                    title={trailer.name}
+                    src={`https://www.youtube.com/embed/${trailer.key}`}
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                <div className="trailer-info">
+                  <h5 className="trailer-title">{trailer.name}</h5>
+                  <p className="trailer-type">{trailer.type}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Paginación con botones de "Anterior" y "Siguiente" */}
-          <div className="pagination d-flex justify-content-center mt-4">
-            <button
-              onClick={prevPage}
-              className="btn btn-secondary mx-2"
-              disabled={currentPage === 1}
-            >
+          <div className="pagination">
+            <button onClick={prevPage} className="btn btn-secondary" disabled={currentPage === 1}>
               Anterior
             </button>
             <button
               onClick={nextPage}
-              className="btn btn-secondary mx-2"
+              className="btn btn-secondary"
               disabled={currentPage === Math.ceil(trailers.length / trailersPerPage)}
             >
               Siguiente
