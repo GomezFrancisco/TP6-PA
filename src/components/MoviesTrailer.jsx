@@ -38,10 +38,10 @@ const MovieTrailers = () => {
   const indexOfFirstTrailer = indexOfLastTrailer - trailersPerPage;
   const currentTrailers = trailers.slice(indexOfFirstTrailer, indexOfLastTrailer);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const totalPages = Math.ceil(trailers.length / trailersPerPage);
 
   const nextPage = () => {
-    if (currentPage < Math.ceil(trailers.length / trailersPerPage)) {
+    if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -89,13 +89,21 @@ const MovieTrailers = () => {
           </div>
 
           <div className="pagination">
-            <button onClick={prevPage} className="btn btn-secondary" disabled={currentPage === 1}>
+            <button
+              onClick={prevPage}
+              className="btn btn-secondary"
+              disabled={currentPage === 1}
+            >
               Anterior
             </button>
+            
+            {/* Mensaje de rango de páginas */}
+            <p>{`Página ${currentPage} de ${totalPages}`}</p>
+            
             <button
               onClick={nextPage}
               className="btn btn-secondary"
-              disabled={currentPage === Math.ceil(trailers.length / trailersPerPage)}
+              disabled={currentPage === totalPages}
             >
               Siguiente
             </button>
